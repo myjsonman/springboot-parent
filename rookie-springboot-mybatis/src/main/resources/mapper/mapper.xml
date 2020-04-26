@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kavy.springboot.mybatis.dao.ItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.kavy.springboot.mybatis.entity.Item" >
+        <result column="item_id" property="itemId" />
+        <result column="item_name" property="itemName" />
+        <result column="item_image" property="itemImage" />
+        <result column="price" property="price" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                item_id,
+                item_name,
+                item_image,
+                price
+    </sql>
+
+    <insert id="insert2" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.kavy.springboot.mybatis.entity.Item">
+        INSERT INTO item
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test ='null != itemId'>
+                item_id,
+            </if>
+            <if test ='null != itemName'>
+                item_name,
+            </if>
+            <if test ='null != itemImage'>
+                item_image,
+            </if>
+            <if test ='null != price'>
+                price
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test ='null != itemId'>
+                #{itemId},
+            </if>
+            <if test ='null != itemName'>
+                #{itemName},
+            </if>
+            <if test ='null != itemImage'>
+                #{itemImage},
+            </if>
+            <if test ='null != price'>
+                #{price}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM item
+        WHERE item_id = #{itemId}
+    </delete>
+
+    <update id="update" parameterType="com.kavy.springboot.mybatis.entity.Item">
+        UPDATE item
+        <set>
+            <if test ='null != itemId'>item_id = #{itemId},</if>
+            <if test ='null != itemName'>item_name = #{itemName},</if>
+            <if test ='null != itemImage'>item_image = #{itemImage},</if>
+            <if test ='null != price'>price = #{price}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM item
+        WHERE item_id = #{itemId}
+    </select>
+
+    <!-- parameterType 输入参数类型； resultType 返回值类型-->
+    <select id="selectItemList" parameterType="Integer" resultType="item">
+      select * from item where item_id = #{itemId}
+    </select>
+
+        <insert id="insert" useGeneratedKeys="true"  parameterType="com.kavy.springboot.mybatis.entity.Item" flushCache="true">
+        insert into item (<include refid="Base_Column_List" />) value (#{itemId},#{itemName},#{itemImage},#{price})
+    </insert>
+
+
+</mapper>
