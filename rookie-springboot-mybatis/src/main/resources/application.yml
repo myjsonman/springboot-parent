@@ -31,4 +31,6 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*mapper.xml
-  type-aliases-package: com.kavy.springboot.mybatis.entity
+  type-aliases-package: com.kavy.springboot.mybatis.entity  #为某个包下的所有类批量起别名，不区分大小写  可以用@Alias 放在类上，为某个类指定新的别名
+  configuration:
+    map-underscore-to-camel-case: true      #开启自动下划线转驼峰格式

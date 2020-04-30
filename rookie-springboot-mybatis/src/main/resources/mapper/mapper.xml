@@ -17,6 +17,7 @@
                 price
     </sql>
 
+    <!-- if判断写法-->
     <insert id="insert2" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.kavy.springboot.mybatis.entity.Item">
         INSERT INTO item
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -49,11 +50,8 @@
         </trim>
     </insert>
 
-    <delete id="delete" >
-        DELETE FROM item
-        WHERE item_id = #{itemId}
-    </delete>
 
+    <!-- if判断写法-->
     <update id="update" parameterType="com.kavy.springboot.mybatis.entity.Item">
         UPDATE item
         <set>
@@ -65,21 +63,43 @@
         WHERE id = #{id}
     </update>
 
-
+    <!-- 引用写法  -->
     <select id="load" resultMap="BaseResultMap">
         SELECT <include refid="Base_Column_List" />
         FROM item
         WHERE item_id = #{itemId}
     </select>
 
-    <!-- parameterType 输入参数类型； resultType 返回值类型-->
-    <select id="selectItemList" parameterType="Integer" resultType="item">
-      select * from item where item_id = #{itemId}
+    <!-- 根据id 和name  查询 ；parameterType 输入参数类型； resultType 返回值类型-->
+    <select id="getItemByItemIdAndItemName"  resultType="item">
+      select * from item where item_id = #{itemId} and item_name = #{itemName}
     </select>
 
+    <!-- 查询全部-->
+    <select id="selectItemList" parameterType="Integer" resultType="item">
+      select * from item
+    </select>
+
+    <!-- 添加 引用方式写法-->
         <insert id="insert" useGeneratedKeys="true"  parameterType="com.kavy.springboot.mybatis.entity.Item" flushCache="true">
         insert into item (<include refid="Base_Column_List" />) value (#{itemId},#{itemName},#{itemImage},#{price})
     </insert>
 
 
+    <!-- 手写增删改-->
+    <insert id="addItem" parameterType="com.kavy.springboot.mybatis.entity.Item"  useGeneratedKeys="true">
+        insert into item (item_name,item_image,price) values (#{itemName},#{itemImage},#{price})
+    </insert>
+
+    <update id="updateItemById">
+        update item set item_name =#{itemName},item_image =#{itemImage},price = #{price} where item_id =#{itemId}
+    </update>
+
+    <delete id="deleteItemById">
+        delete from item where item_id = #{itemId}
+    </delete>
+
+    <select id="selectItemById" parameterType="int" resultType="com.kavy.springboot.mybatis.entity.Item">
+        select * from item where item_id = #{ItemId}
+    </select>
 </mapper>
