@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/rookie-springboot-common/rookie-springboot-common.iml" filepath="$PROJECT_DIR$/rookie-springboot-common/rookie-springboot-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rookie-springboot-mybatis3/rookie-springboot-mybatis3.iml" filepath="$PROJECT_DIR$/rookie-springboot-mybatis3/rookie-springboot-mybatis3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rookie-springboot-rabbitmq/rookie-springboot-rabbitmq.iml" filepath="$PROJECT_DIR$/rookie-springboot-rabbitmq/rookie-springboot-rabbitmq.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rookie-springboot-redis/rookie-springboot-redis.iml" filepath="$PROJECT_DIR$/rookie-springboot-redis/rookie-springboot-redis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rookie-springboot-shiro/rookie-springboot-shiro.iml" filepath="$PROJECT_DIR$/rookie-springboot-shiro/rookie-springboot-shiro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/springboot-parent.iml" filepath="$PROJECT_DIR$/springboot-parent.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,53 @@
+server:
+  tomcat:
+    uri-encoding: UTF-8
+    max-threads: 1000
+    min-spare-threads: 30
+  port: 8077
+  servlet:
+    context-path: /
+#spring
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/rookie?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC&allowMultiQueries=true
+    username: root
+    password: 123
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT dao
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall,log4j
+    logSlowSql: true
+  application:
+    name: rookie-springboot-mybatis3
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 111.230.153.45:8848
+      config:
+        server-addr:  111.230.153.45:8848
+        file-extension: yaml
+        group: DEV_GROUP
+        namespace: 148b1a7d-cc03-492d-9de9-3d9faac025b3
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+mybatis:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.kavy.rookiespringbootmybatis3.entity #为某个包下的所有类批量起别名，不区分大小写  可以用@Alias 放在类上，为某个类指定新的别名
+  configuration:
+    map-underscore-to-camel-case: true      #开启自动下划线转驼峰格式
+    lazy-loading-enabled: true
+    cache-enabled: true

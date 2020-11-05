@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kavy.rookiespringbootmybatis3.dao.ItemMapper">
+
+    <resultMap id="BaseResultMap" type="com.kavy.rookiespringbootmybatis3.entity.Item">
+        <id column="item_id" property="itemId"/>
+        <result column="item_name" property="itemName" />
+        <result column="item_image" property="itemImage" />
+        <result column="price" property="price" />
+        <result column="c_id" property="cId" />
+
+    </resultMap>
+
+
+    <sql id="Base_Cloumn_List">
+        item_id,
+        item_name,
+        item_image,
+        price,
+        c_id
+    </sql>
+
+
+    <!--添加接口 -->
+    <!--
+    useGeneratedKeys 使用自增主键获取主键策略 true是开启
+    keyProperty  是把获取到的主键赋予javaBean的那个属性
+     -->
+    <insert id="addItem" useGeneratedKeys="true" keyProperty="itemId">
+        insert into item (<include refid="Base_Cloumn_List"/>) values (#{itemId},#{itemName},#{itemImage},#{price},#{cId})
+    </insert>
+
+    <!--引用的写法-->
+    <select id="queryItemByIdAndName" resultMap="BaseResultMap">
+        select <include refid="Base_Cloumn_List"></include> from item where item_id=#{itemId} and item_name =#{itemName}
+    </select>
+
+    <!--根据id查询-->
+    <select id="queryItemById" parameterType="int" resultType="com.kavy.rookiespringbootmybatis3.entity.Item">
+        select * from item where item_id = #{ItemId}
+    </select>
+
+    <!--根据id更新-->
+    <update id="updateItem">
+        update item set item_name =#{itemName},item_image=#{itemImage},price=#{price},c_id= #{cId} where item_id = #{itemId}
+    </update>
+
+    <!--根据id删除-->
+    <delete id="deleteItem">
+        delete from  item where item_id = #{itemId}
+    </delete>
+
+
+    <!--参数传递-->
+    <!--根据pojo传递-->
+    <!--
+    #{itemVo.itemName}  itemVo：是实体itemVo的变量.字段名
+    -->
+    <select id="queryByItemVo" parameterType="com.kavy.rookiespringbootmybatis3.entity.ItemVo" resultType="item">
+        select * from item where item_name = #{itemVo.itemName}
+    </select>
+
+    <!--根据map传递-->
+    <select id="queryItemByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from item where item_id = #{itemId}
+    </select>
+
+    <!--根据list传递-->
+    <select id="queryItemByList" parameterType="java.util.List" resultMap="BaseResultMap">
+        select * from item where  item_id in
+        <foreach collection="list" item="itemIds" open="(" close=")" separator=",">
+        #{itemIds}</foreach>
+    </select>
+
+
+
+    <!--批量删除-->
+    <!--
+        collection:指定传入参数类型
+        open:开始时拼接的字符串
+        close：结束时拼接的字符串
+        item：表示集合中每一个元素进行迭代时的别名
+        separator:表示在每次进行迭代之间以扫码符号作为分隔符
+        index:用于表示在迭代过程中,每次迭代到的位置
+    -->
+    <delete id="deleteByIdsList">
+        delete from  item i where i.item_id in
+        <foreach collection="list" item="itemIds" open="(" separator="," close=")">
+         #{itemIds,jdbcType=INTEGER}</foreach>
+
+    </delete>
+    <!--批量插入-->
+    <insert id="insertItemList" useGeneratedKeys="true" keyProperty="itemId">
+        insert into item (item_id,item_name,item_image,price,c_id) values <foreach collection="list" item="item" separator="," >
+            (#{item.itemId,jdbcType=INTEGER},#{item.itemName,jdbcType=VARCHAR},#{item.itemImage,jdbcType=VARCHAR},#{item.price,jdbcType=INTEGER},#{item.cId,jdbcType=INTEGER})
+    </foreach>
+    </insert>
+    <!--批量更新-->
+    <update id="updateItemList">
+        update item set item_name =#{itemName},price=#{price},c_id= #{cId}
+        where item_id in <foreach collection="list" separator="," open="(" close=")" item="idsList">
+                    #{item.itemId}
+    </foreach>
+    </update>
+
+
+
+    <!--模糊查询-->
+    <!--
+     1.模糊查询一：item_name like   #{itemName}  此种方式需要在调用处手动的去添加“%”通配符
+     2.模式查询二：item_name like   %#{itemName}%  会报缺少单引号错误，
+      item_name like   '%#{itemName}%'  如果加上单引号，那么就当成是一个字符串，而#{ }写在字符串中不能识别，要改写成${ }这种形式，但是会引发SQL注入
+     3.模糊查询三：item_name like   concat('%',#{itemName},'%')   当然也可以用$实现
+ -->
+    <select id="queryItemLikeByName" resultMap="BaseResultMap">
+        select * from item where item_name like concat ('%',#{itemName},'%')
+    </select>
+    <!--pojo传递模糊查询-->
+    <select id="queryItemLikeByItemVo" parameterType="com.kavy.rookiespringbootmybatis3.entity.ItemVo" resultType="item">
+        select * from item where item_name like concat ('%',#{itemVo.itemName},'%')
+    </select>
+
+    <select id="queryMapItem" resultType="item">
+        select * from item where item_name like concat ('%',#{itemName},'%')
+    </select>
+</mapper>

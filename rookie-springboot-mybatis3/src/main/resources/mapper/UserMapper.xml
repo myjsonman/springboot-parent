@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kavy.rookiespringbootmybatis3.dao.UserMapper">
+
+    <resultMap id="UserResultMap" type="com.kavy.rookiespringbootmybatis3.entity.User">
+        <id column="user_id" property="userId"/>
+        <result  column="user_name" property="userName"/>
+        <result  column="age" property="age"/>
+        <result  column="addr" property="addr"/>
+        <collection property="phoneList" ofType="com.kavy.rookiespringbootmybatis3.entity.Phone">
+            <id column="id" property="id"/>
+            <result  column="color" property="color"/>
+            <result  column="name" property="name"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="User" type="com.kavy.rookiespringbootmybatis3.entity.User">
+        <id column="user_id" property="userId"/>
+        <result  column="user_name" property="userName"/>
+        <result  column="age" property="age"/>
+        <result  column="addr" property="addr"/>
+    </resultMap>
+
+    <sql id="userSql">
+        user_id,
+        user_name,
+        age,
+        addr
+    </sql>
+
+    <select id="queryUserAndPhone" resultMap="UserResultMap">
+        select * from user u,phone p where u.p_id = p.id and u.user_id =#{userId}
+    </select>
+
+    <select id="queryUser">
+     select * from user u
+     <where>
+         <if test="user_name!=null and user_name = ''">
+             #{userName}
+         </if>
+     </where>
+
+    </select>
+
+    <select id="queryUserByChoose">
+        select * from user u
+        <where>
+        <!--如果带了id就查id,如果带了userName就查userName,只会进入其中一个-->
+          <choose>
+              <when test="user_id !=null">
+                  user_id = #{userId}
+              </when>
+              <when test="user_name !=null">
+                  user_name = #{userName}
+              </when>
+              <otherwise>
+                  age = #{age}
+              </otherwise>
+          </choose>
+        </where>
+
+    </select>
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="rookie-springboot-mybatis" />
+        <module name="rookie-springboot-rabbitmq" />
+        <module name="rookie-springboot-shiro" />
+        <module name="rookie-springboot-mybatis3" />
+        <module name="rookie-springboot-common" />
+        <module name="rookie-springboot-redis" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="rookie-springboot-common" target="1.8" />
+      <module name="rookie-springboot-mybatis" target="1.8" />
+      <module name="rookie-springboot-mybatis3" target="1.8" />
+      <module name="rookie-springboot-rabbitmq" target="1.8" />
+      <module name="rookie-springboot-redis" target="1.8" />
+      <module name="rookie-springboot-shiro" target="1.8" />
+      <module name="springboot-mybatis" target="1.8" />
+      <module name="springboot-parent" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="rookie-springboot-common" options="-parameters" />
+      <module name="rookie-springboot-mybatis" options="-parameters" />
+      <module name="rookie-springboot-mybatis3" options="-parameters" />
+      <module name="rookie-springboot-rabbitmq" options="-parameters" />
+      <module name="rookie-springboot-redis" options="-parameters" />
+      <module name="rookie-springboot-shiro" options="-parameters" />
+      <module name="springboot-mybatis" options="-parameters" />
+      <module name="springboot-parent" options="-parameters" />
+    </option>
+  </component>
+</project>
